@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "ratio": "cpp"
-    }
+    },
+    "C_Cpp.errorSquiggles": "Disabled"
 }
