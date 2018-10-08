@@ -34,42 +34,57 @@ int nSquared(vector<char> data){
     return 0;
 }
 
-int nLogN(vector<char> data&, int start, int end){
-    int number = data.size();
-    int half = number/2;
-    int elem1sub, elemrsub;
-    //if only one element return 
-    if (number ==1)
-        return data(0);
-    else
-        elem1sub = nLogN(data, 0, data.size()-half);
-        elemrsub = nLogN(data, data.size()-half +1, data.size());
-        if (elem1sub == elemrsub)
-            return elemrsub;
-        1count = getFrequency(data, elem1sub);
-        rcount = getFrequency(data, elemrsub);
-        if (1count > half + 1)
-            return elem1sub;
-        else  if (rcount > k+1)
-            return elemrsub;
-        else
-            return 0;
-}
-
-int getFrequency(vector<char> data, int number) {
+int getFrequency(vector<char> data, char number) {
     int count =0;
-    for(int i= 0; i< data.size(); i++){
-        if (data(i)== number)
+    for(int i =0; i <data.size(); i++){
+        if (data[i] ==number)
             count++;
     }
     return count;
 }
 
-/*1C
-int methodN(int array[row][col], int majority, ifstream& inputFile){
-
+int nLogN(vector<char> data){
+    int size = data.size();
+    char elemlsub, elemrsub;
+    int rcount=0, lcount=0;
+    if (size==1)
+        return data[0];
+    else
+    {
+        vector<char> left(data.begin(),data.begin() + data.size()/2);
+        vector<char> right(data.begin() +data.size()/2, data.end());
+        elemlsub = nLogN(left);
+        elemrsub = nLogN(right);
+        if (elemlsub == elemrsub)
+             return elemlsub;
+        lcount = getFrequency(data, elemlsub);
+        rcount = getFrequency(data, elemrsub);
+        if (lcount > (size/2 +1))
+             return elemlsub;
+        else  if (rcount > (size/2 +1))
+             return elemrsub;
+        else
+            return 0;
+    }
 }
-*/
+
+int methodN(vector<char> data){
+    int majIndex =0, count =1;
+    for(int i =1; i <data.size()-1; i++)
+    {
+        if (data[majIndex] == data[i])
+            count++;
+        else   
+            count --;
+        if (count ==0)
+        {
+            majIndex = i;
+            count = 1;
+        }
+    }
+    int result = data[majIndex];
+    return result;
+}
 
 int main (int argc, char** argv) {
     ifstream fileIn("Majex1.txt");
@@ -97,10 +112,17 @@ int main (int argc, char** argv) {
     cout << "Items: " << data.size() << endl;
 
     fileIn.close();
-
+    cout << "--------------------"<<endl;
+    cout <<"nsquared" <<endl;
     nSquared(data);
 
-    cout << nLogN(data, 0, data.size()) << " is majority element" << endl;
+    cout << "--------------------"<<endl;
+    cout <<"nlogn" <<endl;
+    cout << nLogN(data) << " is majority element" << endl;
+
+    cout << "--------------------"<<endl;
+    cout <<"n alg" <<endl;
+    cout << methodN(data) << " is majority element" << endl;
 
     return 0;
 }
