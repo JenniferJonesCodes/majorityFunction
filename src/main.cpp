@@ -1,4 +1,4 @@
-/**
+/*
  * 
  * 
  * 
@@ -43,7 +43,7 @@ int getFrequency(vector<char> data, char number) {
     return count;
 }
 
-int nLogN(vector<char> data){
+char nLogN(vector<char> data){
     int size = data.size();
     char elemlsub, elemrsub;
     int rcount=0, lcount=0;
@@ -51,7 +51,7 @@ int nLogN(vector<char> data){
         return data[0];
     else
     {
-        vector<char> left(data.begin(),data.begin() + data.size()/2);
+        vector<char> left(data.begin(), data.begin() + data.size()/2);
         vector<char> right(data.begin() +data.size()/2, data.end());
         elemlsub = nLogN(left);
         elemrsub = nLogN(right);
@@ -64,13 +64,13 @@ int nLogN(vector<char> data){
         else  if (rcount > (size/2 +1))
              return elemrsub;
         else
-            return 0;
+            return '0';
     }
 }
 
-int methodN(vector<char> data){
+char methodN(vector<char> data){
     int majIndex =0, count =1;
-    for(int i =1; i <data.size()-1; i++)
+    for (int i =1; i <data.size()-1; i++)
     {
         if (data[majIndex] == data[i])
             count++;
@@ -82,8 +82,18 @@ int methodN(vector<char> data){
             count = 1;
         }
     }
-    int result = data[majIndex];
-    return result;
+    char result = data[majIndex];
+    int countCheck =0;
+    for (int i=0; i<data.size(); i++){
+        if (data[i] == result){
+            countCheck++;
+        }
+    }
+    if (countCheck >= data.size()/2)
+        return result;
+    else 
+        return '0';
+
 }
 
 int main (int argc, char** argv) {
