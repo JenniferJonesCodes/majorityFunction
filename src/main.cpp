@@ -8,30 +8,30 @@
 #include <iostream>
 #include <ostream>
 #include <fstream>
-#include <cstring>
+#include <string>
 #include <vector>
 
 using namespace::std;
 
+char nSquared(vector<char> data){
+    int count=0;
 
-int nSquared(vector<char> data){
     for (int i=0; i < data.size(); i++)
     {
-        int count=0;
-        for(int j=1; j< data.size(); j++)
+        for(int j=0; j < data.size(); j++)
         {
             if (data[j] == data[i]){
                 count++;
             }
         }
-        if (count > data.size()/2){
+        if (count > data.size()/2)
+        {
             char result = data[i];
-            cout << result << " is the majority of this array" << endl;
-            return 0;
+            return result;
         }
+        count = 0;
     }
-    cout << " No majority element found." << endl;
-    return 0;
+    return '0';
 }
 
 int getFrequency(vector<char> data, char number) {
@@ -47,7 +47,8 @@ char nLogN(vector<char> data){
     int size = data.size();
     char elemlsub, elemrsub;
     int rcount=0, lcount=0;
-    if (size==1){
+    if (size==1)
+    {
         return data[0];
     }
 
@@ -58,18 +59,19 @@ char nLogN(vector<char> data){
     elemrsub = nLogN(right);
 
     if (elemlsub == elemrsub)
+    {
             return elemlsub;
-
+    }
 
     lcount = getFrequency(data, elemlsub);
     rcount = getFrequency(data, elemrsub);
 
-    if (lcount > rcount){
-
+    if (lcount > size /2)
+    {
         return elemlsub;
     }
-    else  if (rcount > lcount){
-
+    else  if (rcount > size /2)
+    {
         return elemrsub;
     }
     else
@@ -92,20 +94,21 @@ char methodN(vector<char> data){
     }
     char result = data[majIndex];
     int countCheck =0;
-    for (int i=0; i<data.size(); i++){
-        if (data[i] == result){
+    for (int i=0; i<data.size(); i++)
+    {
+        if (data[i] == result)
+        {
             countCheck++;
         }
     }
-    if (countCheck >= data.size()/2)
+    if (countCheck > data.size()/2)
         return result;
     else 
         return '0';
-
 }
 
-int main (int argc, char** argv) {
-    ifstream fileIn("Majex2.txt");
+void run (string fileName) {
+    ifstream fileIn(fileName);
     char ch;
     if (fileIn.fail())
     {
@@ -132,15 +135,45 @@ int main (int argc, char** argv) {
     fileIn.close();
     cout << "--------------------"<<endl;
     cout <<"nsquared" <<endl;
-    nSquared(data);
+    clock_t startTime = clock();
+    char result = nSquared(data);
+    cout << double( clock() - startTime)/(double)CLOCKS_PER_SEC << " seconds." << endl;
+    if (result == '0') 
+        cout << "No Majority Element" << endl;
+    else 
+        cout << result << " is majority element" << endl;    
 
     cout << "--------------------"<<endl;
     cout <<"nlogn" <<endl;
-    cout << nLogN(data) << " is majority element" << endl;
+    startTime = clock();
+    result = nLogN(data);
+    cout << double( clock() - startTime)/(double)CLOCKS_PER_SEC << " seconds." << endl;
+    if (result == '0') 
+        cout << "No Majority Element" << endl;
+    else 
+        cout << result << " is majority element" << endl;    
 
     cout << "--------------------"<<endl;
     cout <<"n alg" <<endl;
-    cout << methodN(data) << " is majority element" << endl;
+    startTime = clock();
+    result = methodN(data);
+    cout << double( clock() - startTime)/(double)CLOCKS_PER_SEC << " seconds." << endl;
+    if (result == '0') 
+        cout << "No Majority Element" << endl;
+    else 
+        cout << result << " is majority element" << endl;
+}
+
+int main (int argc, char** argv) {
+    
+    cout << "_________Majex1.txt_________" << endl << endl;
+    run("Majex1.txt");
+    cout << endl << "_________Majex2.txt_________" << endl << endl;
+    run("Majex2.txt");
+    cout << endl << "_________Majex3.txt_________" << endl << endl;
+    run("Majex3.txt");
+    cout << endl << "_________Majex4.txt_________" << endl << endl;
+    run("Majex4.txt"); 
 
     return 0;
 }
