@@ -15,16 +15,16 @@ using namespace::std;
 
 
 int nSquared(vector<char> data){
-    int count=0;
     for (int i=0; i < data.size(); i++)
     {
-        for(int j=0; j< data.size(); j++)
+        int count=0;
+        for(int j=1; j< data.size(); j++)
         {
             if (data[j] == data[i]){
                 count++;
             }
         }
-        if (count >= data.size()/2){
+        if (count > data.size()/2){
             char result = data[i];
             cout << result << " is the majority of this array" << endl;
             return 0;
@@ -47,25 +47,33 @@ char nLogN(vector<char> data){
     int size = data.size();
     char elemlsub, elemrsub;
     int rcount=0, lcount=0;
-    if (size==1)
+    if (size==1){
         return data[0];
-    else
-    {
-        vector<char> left(data.begin(), data.begin() + data.size()/2);
-        vector<char> right(data.begin() +data.size()/2, data.end());
-        elemlsub = nLogN(left);
-        elemrsub = nLogN(right);
-        if (elemlsub == elemrsub)
-             return elemlsub;
-        lcount = getFrequency(data, elemlsub);
-        rcount = getFrequency(data, elemrsub);
-        if (lcount > (size/2 +1))
-             return elemlsub;
-        else  if (rcount > (size/2 +1))
-             return elemrsub;
-        else
-            return '0';
     }
+
+    vector<char> left(data.begin(), data.begin() + data.size()/2);
+    vector<char> right(data.begin() +data.size()/2, data.end());
+
+    elemlsub = nLogN(left);
+    elemrsub = nLogN(right);
+
+    if (elemlsub == elemrsub)
+            return elemlsub;
+
+
+    lcount = getFrequency(data, elemlsub);
+    rcount = getFrequency(data, elemrsub);
+
+    if (lcount > rcount){
+
+        return elemlsub;
+    }
+    else  if (rcount > lcount){
+
+        return elemrsub;
+    }
+    else
+        return '0';
 }
 
 char methodN(vector<char> data){
@@ -97,7 +105,7 @@ char methodN(vector<char> data){
 }
 
 int main (int argc, char** argv) {
-    ifstream fileIn("Majex1.txt");
+    ifstream fileIn("Majex2.txt");
     char ch;
     if (fileIn.fail())
     {
